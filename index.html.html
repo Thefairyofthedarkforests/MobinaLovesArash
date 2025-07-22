@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprise!</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            overflow: hidden; /* Prevent scrolling to ensure full-screen sections */
+            margin: 0;
+            padding: 0;
+        }
+        /* Base styles for all full-screen sections */
+        .full-screen-section {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: absolute; /* Position absolutely to stack them */
+            top: 0;
+            left: 0;
+            transition: opacity 0.5s ease-in-out; /* Smooth fade transition */
+            opacity: 0;
+            visibility: hidden; /* Hidden by default */
+            color: white; /* Default text color for dark backgrounds */
+        }
+        /* Active class to show a section */
+        .full-screen-section.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        /* Dark green background for most sections */
+        .dark-green-bg {
+            background-color: #1a472a; /* A specific dark green shade */
+        }
+        /* Styling for the gift box image */
+        .gift-box-img {
+            max-width: 80%; /* Max width relative to parent */
+            max-height: 60vh; /* Max height relative to viewport height */
+            cursor: pointer; /* Indicate it's clickable */
+            transition: transform 0.2s; /* Smooth hover effect */
+            border-radius: 0.75rem; /* Rounded corners */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+        }
+        .gift-box-img:hover {
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+        /* Styling for cake images */
+        .cake-img {
+            max-width: 90%; /* Adjust as needed */
+            max-height: 70vh; /* Adjust as needed */
+            height: auto;
+            border-radius: 0.75rem; /* Rounded corners */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+        }
+        /* Loading overlay styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            z-index: 1000; /* Ensure it's on top */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        /* Spinner for loading (not used in this version, but kept for consistency) */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay: Shown while images are being loaded (optional now that images are static) -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <p class="mb-4">Loading your surprise...</p>
+        <p class="text-sm text-gray-400">This might take a moment as images are loaded.</p>
+    </div>
+
+    <!-- Section 1: Welcome Screen -->
+    <div id="welcomeScreen" class="full-screen-section dark-green-bg">
+        <h1 class="text-5xl md:text-7xl font-bold">Hello!</h1>
+        <p class="text-2xl md:text-3xl mt-4"> کلیک کن</p>
+    </div>
+
+    <!-- Section 2: Gift Reveal -->
+    <div id="giftReveal" class="full-screen-section dark-green-bg">
+        <!--LOCAL-->
+        <img id="giftBoxImage" src="C:\Users\OwlMo\Desktop\MobinaLovesArash\images\letter.png" class="gift-box-img mb-8">
+        <h2 class="text-5xl md:text-6xl font-bold">Open me!</h2>
+        <p class="text-xl md:text-2xl mt-2 text-gray-300">click on the box to expose!</p>
+    </div>
+
+    <!-- Section 3: Message Card -->
+    <div id="messageCard" class="full-screen-section dark-green-bg">
+        <h2 class="text-6xl md:text-8xl font-extrabold leading-tight">تولدت 27 سالگیت</h2>
+        <h2 class="text-6xl md:text-8xl font-extrabold leading-tight mt-2">مبارک آرش عزیزم ♥</h2>
+    </div>
+
+    <!-- Section 4: Cake On (with lit candles) -->
+    <div id="cakeOn" class="full-screen-section dark-green-bg">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8">بیا شمعها رو فوت کن و یه آرزو کن</h2>
+        <!-- Updated image source to direct Google Drive link for the lit cake -->
+        <img id="cakeOnImage" src="C:\Users\OwlMo\Desktop\MobinaLovesArash\images\cake-lit.png" alt="Chocolate Cake with 27 Lit Candles" class="cake-img">
+        <p id="micInstruction" class="text-xl md:text-2xl mt-4 text-gray-300">دسترسی میکروفون بده و واقعا فوت کن! :))</p>
+    </div>
+
+    <!-- Section 5: Cake Off (with unlit candles) -->
+    <div id="cakeOff" class="full-screen-section dark-green-bg">
+        <!-- Updated image source to direct Google Drive link for the unlit cake -->
+        <img id="cakeOffImage" src="C:\Users\OwlMo\Desktop\MobinaLovesArash\images\cake-unlit.png" alt="Chocolate Cake with 27 Unlit Candles" class="cake-img">
+    </div>
+
+    <!-- Section 6: Message to Click -->
+    <div id="messageToClick" class="full-screen-section dark-green-bg cursor-pointer">
+        <h2 class="text-5xl md:text-7xl font-bold">You have a message!</h2>
+        <p class="text-2xl md:text-3xl mt-4">Click here!</p>
+    </div>
+
+    <!-- Section 7 (New): Static Personalized Message -->
+    <div id="staticPersonalMessage" class="full-screen-section dark-green-bg cursor-pointer">
+        <p class="text-3xl md:text-5xl font-extrabold px-8 leading-relaxed">
+            آرش عزیزم، تولد ۲۷ سالگیت مبارک! تو روشنایی، خنده و عشق زیادی رو به دنیای من آوردی و تک‌تک لحظاتم با تو ارزشمنده برام. دیدن رشد و رسیدن تو به هدف‌هات، من رو فوق‌العاده مفتخر می‌کنه و بهت افتخار می‌کنم. امیدوارم امسال سکوی پرتابی قدرتمند باشه برای خوشبختی بی‌کران و موفقیت‌های چشمگیر برات.
+        </p>
+        <p class="text-xl md:text-2xl mt-8 text-gray-300">click to continue</p>
+    </div>
+
+    <!-- Section 9: Final Message -->
+    <div id="finalMessage" class="full-screen-section dark-green-bg">
+        <h2 class="text-5xl md:text-7xl font-extrabold text-white">You mean the world to me.</h2>
+        <p class="text-4xl md:text-6xl mt-4 text-white">Love you forever, Mobina ♥</p>
+    </div>
+
+    <script>
+        // Array of section IDs to manage visibility
+        const sections = [
+            'welcomeScreen',
+            'giftReveal',
+            'messageCard',
+            'cakeOn',
+            'cakeOff',
+            'messageToClick',
+            'staticPersonalMessage', // New static message section
+            'finalMessage'
+        ];
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        // Function to show a specific section and hide others
+        function showSection(id) {
+            sections.forEach(secId => {
+                const section = document.getElementById(secId);
+                if (section) {
+                    section.classList.remove('active'); // Hide all sections
+                }
+            });
+            const targetSection = document.getElementById(id);
+            if (targetSection) {
+                targetSection.classList.add('active'); // Show the target section
+            }
+        }
+
+        // --- Microphone Logic for Candle Blowing ---
+        let audioContext;
+        let analyser;
+        let microphone;
+        let scriptProcessor;
+        let listeningForBlow = false; // Flag to control microphone listening
+        const BLOW_THRESHOLD = 0.005; // Lower RMS value indicates quieter sound (e.g., after a blow)
+        const BLOW_DURATION_MS = 700; // Duration (in ms) for which the volume must stay below threshold
+        let blowStartTime = 0; // Timestamp when low volume started
+
+        async function setupMicrophone() {
+            try {
+                // Request microphone access from the user
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                // Create an AudioContext for audio processing
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                // Create an AnalyserNode to get audio data
+                analyser = audioContext.createAnalyser();
+                // Create a MediaStreamSource from the microphone stream
+                microphone = audioContext.createMediaStreamSource(stream);
+                // Create a ScriptProcessorNode to process audio in real-time
+                scriptProcessor = audioContext.createScriptProcessor(2048, 1, 1); // Buffer size, input channels, output channels
+
+                // Connect the audio nodes: microphone -> analyser -> scriptProcessor -> destination
+                microphone.connect(analyser);
+                analyser.connect(scriptProcessor);
+                scriptProcessor.connect(audioContext.destination); // Connect to destination to ensure it processes
+
+                // Event handler for audio processing
+                scriptProcessor.onaudioprocess = function(event) {
+                    if (!listeningForBlow) return; // Only process if actively listening for a blow
+
+                    const inputBuffer = event.inputBuffer.getChannelData(0); // Get audio data from the first channel
+                    let sum = 0;
+                    // Calculate Root Mean Square (RMS) for volume detection
+                    for (let i = 0; i < inputBuffer.length; i++) {
+                        sum += inputBuffer[i] * inputBuffer[i];
+                    }
+                    const rms = Math.sqrt(sum / inputBuffer.length);
+
+                    // Simple blow detection: check if RMS is below a threshold for a sustained period
+                    if (rms < BLOW_THRESHOLD) {
+                        if (blowStartTime === 0) {
+                            blowStartTime = audioContext.currentTime * 1000; // Record start time of low volume
+                        } else if ((audioContext.currentTime * 1000) - blowStartTime > BLOW_DURATION_MS) {
+                            // If low volume persists for the required duration, a blow is detected
+                            console.log("Blow detected!");
+                            listeningForBlow = false; // Stop listening
+                            // Disconnect and close audio resources to release microphone
+                            if (microphone) microphone.disconnect();
+                            if (analyser) analyser.disconnect();
+                            if (scriptProcessor) scriptProcessor.disconnect();
+                            audioContext.close(); // Close audio context
+
+                            // Transition to Cake Off screen
+                            showSection('cakeOff');
+                            // After the adjusted delay, transition to the "message to click" screen
+                            setTimeout(() => {
+                                showSection('messageToClick');
+                            }, 3000); // Changed from 2s to 3s
+                        }
+                    } else {
+                        blowStartTime = 0; // Reset if volume goes above threshold
+                    }
+                };
+                document.getElementById('micInstruction').textContent = "دسترسی میکروفون بده و واقعا فوت کن! :))";
+            } catch (err) {
+                console.error('Error accessing microphone:', err);
+                // Inform user if microphone access is denied or an error occurs
+                document.getElementById('micInstruction').textContent = "Microphone access denied or error. Please allow microphone access to blow the candles.";
+            }
+        }
+
+        // --- Page Flow and Event Listeners ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            // The loading overlay is no longer strictly necessary for image loading,
+            // as images are now static. However, keeping it for a brief initial load feel.
+            loadingOverlay.classList.remove('active'); // Ensure it's hidden or remove if not desired.
+            showSection('welcomeScreen'); // Start with the welcome screen
+
+            // Event listener for the Welcome Screen (any click)
+            document.getElementById('welcomeScreen').addEventListener('click', () => {
+                showSection('giftReveal'); // Transition to Gift Reveal
+            });
+
+            // Event listener for the Gift Box image
+            document.getElementById('giftBoxImage').addEventListener('click', () => {
+                showSection('messageCard'); // Transition to Message Card
+                // After 4 seconds, transition to Cake On screen and set up microphone (changed from 2s to 4s)
+                setTimeout(() => {
+                    showSection('cakeOn');
+                    listeningForBlow = true; // Enable microphone listening
+                    setupMicrophone(); // Initialize microphone
+                }, 4000); // Changed from 2 seconds to 4 seconds
+            });
+
+            // Event listener for the "Message to Click" section
+            document.getElementById('messageToClick').addEventListener('click', () => {
+                showSection('staticPersonalMessage'); // Show the new static personalized message section
+            });
+
+            // Event listener for the new "Static Personalized Message" section
+            document.getElementById('staticPersonalMessage').addEventListener('click', () => {
+                showSection('finalMessage'); // Transition to the final message screen
+            });
+        });
+    </script>
+</body>
+</html>
